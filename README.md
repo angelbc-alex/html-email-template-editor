@@ -17,40 +17,105 @@ Built with **Laravel 13**, **React 19**, **Inertia.js**, **Tailwind CSS 4**, and
 - **Clone & edit** -- Clone any saved email to create a variant, or re-edit the original.
 - **Download** -- Download the rendered HTML or copy it to clipboard for the multimedia team.
 
-## Quick start
+## Requirements
+
+- PHP 8.3+
+- Node.js 18+ and npm
+- Composer
+
+## Installation
 
 ```bash
-# Clone
-git clone <repo-url> email-builder
-cd email-builder
+# Clone the repo
+git clone https://github.com/angelbc-alex/html-email-template-editor.git
+cd html-email-template-editor
 
-# Install dependencies
-composer install
-npm install
+# Run the setup script (installs deps, creates .env, generates key, runs migrations, builds assets)
+composer setup
 
-# Environment
-cp .env.example .env
-php artisan key:generate
-
-# Database (SQLite by default)
-touch database/database.sqlite
-php artisan migrate
-
-# Puppeteer (for auto-screenshots)
+# Install headless Chrome for auto-screenshots
 npx puppeteer browsers install chrome-headless-shell
 
-# Storage link
+# Create the public storage symlink
 php artisan storage:link
 
-# Create a user
+# Create your first user
 php artisan tinker
-> \App\Models\User::factory()->create(['name' => 'Admin', 'email' => 'admin@example.com', 'password' => 'password']);
+> \App\Models\User::factory()->create(['name' => 'Your Name', 'email' => 'you@example.com', 'password' => 'password']);
+> exit
+```
 
-# Run
+### What `composer setup` does
+
+1. `composer install` -- installs PHP dependencies
+2. Copies `.env.example` to `.env` (if `.env` doesn't exist)
+3. `php artisan key:generate` -- generates the app encryption key
+4. `php artisan migrate --force` -- creates the SQLite database and tables
+5. `npm install` -- installs Node dependencies
+6. `npm run build` -- builds the frontend assets
+
+### Configuration
+
+The app uses **SQLite** by default -- no database server needed. The database file is created at `database/database.sqlite` during migration.
+
+If you want to use MySQL/PostgreSQL, update the `DB_*` variables in `.env`.
+
+## Running the app
+
+### Development
+
+```bash
 composer dev
 ```
 
-This starts the Laravel server, queue worker, and Vite dev server concurrently.
+This runs three processes concurrently:
+- **Laravel dev server** (`php artisan serve`) on `http://localhost:8000`
+- **Queue worker** (`php artisan queue:listen`) for processing screenshot jobs
+- **Vite dev server** (`npm run dev`) for hot-reloading frontend assets
+
+### With Laravel Herd (recommended for local dev)
+
+If you use [Laravel Herd](https://herd.laravel.com), the app is served automatically at `http://your-folder-name.test`. You only need to run:
+
+```bash
+npm run dev                        # Vite dev server
+php artisan queue:listen --tries=1 # Queue worker for screenshots
+```
+
+### Production
+
+```bash
+npm run build
+php artisan serve
+```
+
+Run a persistent queue worker for screenshot generation (via Supervisor, systemd, or your hosting platform's process manager).
+
+## Importing existing templates
+
+Place `.html` template files in `storage/app/private/templates/`, then run:
+
+```bash
+php artisan app:seed-templates
+```
+
+Or add templates through the UI at **Templates > Add Template**.
+
+## Generating screenshots
+
+Screenshots are captured automatically when templates or emails are created/updated (via the queue worker). To generate screenshots for existing records:
+
+```bash
+# Generate missing screenshots
+php artisan app:generate-screenshots
+
+# Force regenerate all
+php artisan app:generate-screenshots --force
+
+# Only templates or emails
+php artisan app:generate-screenshots --templates
+php artisan app:generate-screenshots --emails
+```
 
 ## Documentation
 
