@@ -7,7 +7,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import { register } from '@/routes';
+// register route disabled
+const register = () => ({ url: '/register', method: 'get' as const });
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 

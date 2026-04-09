@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"C:/Users/ASUS-AM/.config/herd/bin/php.bat\" artisan:*)",
+      "Bash(ls resources/js/routes*)",
+      "Bash(\"C:/Users/ASUS-AM/.config/herd/bin/php.bat\" -r \"echo PHP_OS_FAMILY;\")",
+      "Bash(\"C:/Users/ASUS-AM/.config/herd/bin/php.bat\" composer:*)",
+      "Bash(\"C:/Users/ASUS-AM/.config/herd/bin/composer.bat\" require:*)",
+      "Bash(where node:*)",
+      "Bash(where npm:*)",
+      "Bash(C:/Users/ASUS-AM/.config/herd/bin/php.bat -r ':*)",
+      "Bash(\"C:/Users/ASUS-AM/.config/herd/bin/php.bat\" -r \"echo 'hello';\")",
+      "Bash(C:/Users/ASUS-AM/.config/herd/bin/php.bat -r 'echo '\\\\''start'\\\\''; require '\\\\''vendor/autoload.php'\\\\''; echo '\\\\'' loaded'\\\\''; try { \\\\Spatie\\\\Browsershot\\\\Browsershot::html\\('\\\\''<h1>Test</h1>'\\\\''\\)->setNodeBinary\\('\\\\''C:/nvm4w/nodejs/node.exe'\\\\''\\)->setNpmBinary\\('\\\\''C:/nvm4w/nodejs/npm.cmd'\\\\''\\)->windowSize\\(800,600\\)->save\\('\\\\''storage/app/public/screenshots/test.png'\\\\''\\); echo '\\\\'' SAVED'\\\\''; } catch \\(\\\\Throwable $e\\) { echo '\\\\'' ERR:'\\\\'' . $e->getMessage\\(\\); }')",
+      "Bash(npx puppeteer:*)",
+      "Bash(grep -v '$password')",
+      "Bash([ -f auth.json ])"
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { dashboard, login, register } from '@/routes';
+import { dashboard, login } from '@/routes';
+const register = () => ({ url: '/register', method: 'get' as const });
 
 export default function Welcome({
     canRegister = true,
